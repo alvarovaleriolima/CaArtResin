@@ -1,0 +1,142 @@
+<!-- index.html - Estrutura básica da loja de artesanato em resina -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CaArtResin</title>
+  <!-- Tailwind Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Navbar -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <h1 class="text-2xl font-bold">Arte em Resina</h1>
+      <nav class="space-x-4">
+        <a href="#catalogo" class="hover:underline">Catálogo</a>
+        <a href="#sobre" class="hover:underline">Sobre</a>
+        <a href="#contato" class="hover:underline">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-[url('https://source.unsplash.com/featured/?resin,craft')] bg-cover bg-center h-72 flex items-center">
+    <div class="container mx-auto text-white text-center">
+      <h2 class="text-4xl font-extrabold drop-shadow">Peças únicas em resina epóxi</h2>
+      <p class="mt-4 text-lg">Personalize chaveiros, canetas, marcadores e eternize flores especiais.</p>
+      <a href="#catalogo" class="mt-6 inline-block bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-xl transition">Ver produtos</a>
+    </div>
+  </section>
+
+  <!-- Catálogo -->
+  <section id="catalogo" class="container mx-auto py-12 px-4">
+    <h3 class="text-3xl font-semibold mb-8 text-center">Catálogo</h3>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="productGrid">
+      <!-- Card de produto (modo compacto) -->
+      <div class="bg-white shadow rounded-2xl flex flex-col" x-data="{ aberto:false, nome:'Chaveiro Personalizado', preco:25 }">
+        <img src="imagens/Chaveiro B.jpg" class="rounded-t-2xl h-48 w-full object-cover" alt="Chaveiro de resina" />
+        <div class="p-4 flex-1 flex flex-col">
+          <h4 class="text-xl font-bold mb-1" x-text="nome"></h4>
+          <p class="text-teal-600 font-semibold text-lg mb-4">R$ <span x-text="preco"></span>,00</p>
+          <button class="bg-teal-500 hover:bg-teal-600 text-white py-2 rounded-lg w-full mt-auto" x-on:click="aberto=true">Personalizar</button>
+        </div>
+
+        <!-- Modal de personalização -->
+        <div x-show="aberto" x-cloak class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div class="bg-white rounded-2xl max-w-md w-full p-6" x-on:click.away="aberto=false">
+            <h4 class="text-2xl font-bold mb-4" x-text="nome"></h4>
+            <form x-on:submit.prevent="enviarPedido($el)">
+              <div class="space-y-3 mb-6">
+                <div>
+                  <label class="block text-sm font-medium">Nome para gravar</label>
+                  <input required name="nomeGravado" type="text" class="mt-1 w-full rounded border-gray-300" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium">Cor de fundo</label>
+                  <input required name="corFundo" type="text" placeholder="Ex: Azul Pastel" class="mt-1 w-full rounded border-gray-300" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium">Glitters (cores)</label>
+                  <input name="glitter" type="text" placeholder="Ex: Dourado, Rosa" class="mt-1 w-full rounded border-gray-300" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium">Metal</label>
+                  <select name="metal" class="mt-1 w-full rounded border-gray-300">
+                    <option>Dourado</option>
+                    <option>Prata</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium">Quantidade</label>
+                  <input required name="qtd" type="number" min="1" value="1" class="mt-1 w-24 rounded border-gray-300" />
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                <button type="submit" data-action="email" class="bg-teal-500 hover:bg-teal-600 text-white py-2 rounded-lg w-full">Email</button>
+                <button type="submit" data-action="whatsapp" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg w-full">WhatsApp</button>
+              </div>
+              <button type="button" class="text-sm underline w-full" x-on:click="aberto=false">Cancelar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Fim card -->
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre" class="bg-white py-12">
+    <div class="container mx-auto px-4 text-center max-w-2xl">
+      <h3 class="text-3xl font-semibold mb-4">Sobre a artesã</h3>
+      <p>Texto contando a história, paixão pela arte em resina e diferenciais...</p>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato" class="container mx-auto py-12 px-4 text-center">
+    <h3 class="text-3xl font-semibold mb-4">Fale conosco</h3>
+    <p>Envie uma mensagem no WhatsApp <a href="https://wa.me/55SEUNUMERO" class="text-teal-600 underline">clicando aqui</a>.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 text-center p-4">
+    © <span x-text="new Date().getFullYear()"></span> Arte em Resina. Todos os direitos reservados.
+  </footer>
+
+  <!-- Alpine.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+  <!-- Script de utilidades -->
+  <script>
+    function produto(nome, preco){
+      return {
+        nome, preco,
+        enviarPedido(form){
+          const fd = new FormData(form);
+          const dados = Object.fromEntries(fd.entries());
+          const resumo = `Pedido de ${nome}: %0A` + Object.entries(dados).map(([k,v]) => `${k}: ${v}`).join('%0A');
+          const destino = form.querySelector('button[type="submit"]:hover').dataset.action;
+
+          if(destino === 'whatsapp'){
+            window.open(`https://wa.me/55SEUNUMERO?text=${resumo}`);
+          }else{
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { message: decodeURIComponent(resumo) })
+                  .then(()=>alert('Enviado por email!'))
+                  .catch(()=>alert('Falha ao enviar email'));
+          }
+
+          // Enviar para Google Sheets (replace URL)
+          fetch('YOUR_APPS_SCRIPT_URL', { method:'POST', body: JSON.stringify({ produto: nome, personalizacao: dados, valor: preco, qtd: dados.qtd }) });
+        }
+      }
+    }
+  </script>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>emailjs.init('YOUR_PUBLIC_KEY');</script>
+</body>
+</html>
